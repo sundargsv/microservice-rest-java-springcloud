@@ -1,6 +1,7 @@
 package com.sundar.microservices.customer.api;
 
 import com.sundar.microservices.customer.api.model.Project;
+import com.sundar.microservices.customer.common.Constants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
@@ -9,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(path = {"/api"}, produces = {MediaType.APPLICATION_JSON_VALUE})
+@RequestMapping(path = {Constants.API_BASE_CONTEXT_PATH}, produces = {MediaType.APPLICATION_JSON_VALUE})
 @Slf4j
 public class ApplicationApi {
 

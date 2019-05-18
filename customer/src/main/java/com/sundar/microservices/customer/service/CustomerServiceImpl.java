@@ -26,6 +26,8 @@ public class CustomerServiceImpl implements CustomerService{
     @Override
     public Customer getById(String id) {
 
+        log.info("Fetching a customer entity for a given id {}", id);
+
         Optional<Customer> entity = customerRepository.findById(id);
 
         if (entity.isPresent()) return entity.get();
