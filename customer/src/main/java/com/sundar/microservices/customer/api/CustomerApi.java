@@ -2,12 +2,15 @@ package com.sundar.microservices.customer.api;
 
 import com.sundar.microservices.customer.api.model.Customer;
 import com.sundar.microservices.customer.common.Constants;
+import com.sundar.microservices.customer.persistence.Schema.CustomerSchema;
 import com.sundar.microservices.customer.service.CustomerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 
 @RestController
@@ -23,7 +26,7 @@ public class CustomerApi {
     *   Add customer
     * */
     @PostMapping
-    public Customer add(@RequestBody Customer request){
+    public CustomerSchema add(@Valid @RequestBody Customer request){
 
         return customerService.add(request);
     }
@@ -32,7 +35,7 @@ public class CustomerApi {
      * Get By id
      * */
     @GetMapping(path = "/{id}")
-    public Customer byId(@PathVariable("id") String custId) {
+    public CustomerSchema byId(@PathVariable("id") String custId) {
 
        return customerService.getById(custId);
     }
@@ -44,7 +47,6 @@ public class CustomerApi {
     public Customer byCustId(@RequestParam("id") String custId) {
 
         return !custId.equals("0") ? Customer.builder()
-                .id(custId)
                 .firstName("Test")
                 .lastName("Test")
                 .email("Test")
