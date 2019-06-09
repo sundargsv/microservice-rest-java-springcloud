@@ -54,7 +54,7 @@ public class CustomerApi {
      * */
     @PostMapping(path = "/{id}/order")
     public OrderSchema add(@PathVariable("id") String customerId,
-                           @RequestBody Order request){
+                           @Valid @RequestBody Order request){
 
         return orderService.add(customerId, request);
 
