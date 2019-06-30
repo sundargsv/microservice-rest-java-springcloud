@@ -2,6 +2,7 @@ package com.sundar.microservices.customer.api.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.sundar.microservices.customer.api.annotations.VerifyDiscountedPrice;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,9 +22,10 @@ public class Order {
     // but only storing the name as of now
     private List<String> product;
 
-    private String price;
+    private Double price;
 
-    private String isDiscounted;
+    private Boolean isDiscounted;
 
+    @VerifyDiscountedPrice
     private Double discountedPrice;
 }

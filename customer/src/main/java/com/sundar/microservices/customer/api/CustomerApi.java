@@ -7,6 +7,7 @@ import com.sundar.microservices.customer.persistence.Schema.CustomerSchema;
 import com.sundar.microservices.customer.persistence.Schema.OrderSchema;
 import com.sundar.microservices.customer.service.CustomerService;
 import com.sundar.microservices.customer.service.OrderService;
+import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -18,6 +19,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping(path = {Constants.API_CUSTOMER_PATH}, produces = MediaType.APPLICATION_JSON_VALUE)
+@Api(tags="Customer", description="Operations pertaining to customer services")
 @Slf4j
 public class CustomerApi {
 
@@ -52,7 +54,7 @@ public class CustomerApi {
      * */
     @PostMapping(path = "/{id}/order")
     public OrderSchema add(@PathVariable("id") String customerId,
-                           @RequestBody Order request){
+                           @Valid @RequestBody Order request){
 
         return orderService.add(customerId, request);
 

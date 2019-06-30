@@ -29,9 +29,9 @@ public class OrderSchema {
     // but only storing the name as of now
     private List<String> product;
 
-    private String price;
+    private Double price;
 
-    private String isDiscounted;
+    private Boolean isDiscounted;
 
     private Double discountedPrice;
 
