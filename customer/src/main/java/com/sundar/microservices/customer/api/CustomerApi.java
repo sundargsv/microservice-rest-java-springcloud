@@ -1,6 +1,7 @@
 package com.sundar.microservices.customer.api;
 
 import com.sundar.microservices.customer.api.model.Customer;
+import com.sundar.microservices.customer.api.model.ErrorResponse;
 import com.sundar.microservices.customer.api.model.Order;
 import com.sundar.microservices.customer.common.Constants;
 import com.sundar.microservices.customer.persistence.Schema.CustomerSchema;
@@ -8,6 +9,9 @@ import com.sundar.microservices.customer.persistence.Schema.OrderSchema;
 import com.sundar.microservices.customer.service.CustomerService;
 import com.sundar.microservices.customer.service.OrderService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -30,9 +34,19 @@ public class CustomerApi {
     @Autowired
     private OrderService orderService;
 
-    /*
-    *   Add customer
-    * */
+    /**
+     * Add new customer
+     * */
+    @ApiOperation("Adding new customer")
+    @ApiResponses( value = {
+            @ApiResponse(code = 200, response = CustomerSchema.class, message = "Customer has been added successfully"),
+            @ApiResponse(code = 404, response = ErrorResponse.class, message = "Customer not found error."),
+            @ApiResponse(code = 400, response = ErrorResponse.class, message = "Bad Request."),
+            @ApiResponse(code = 401, response = ErrorResponse.class, message = "Unauthorized."),
+            @ApiResponse(code = 403, response = ErrorResponse.class, message = "Forbidden."),
+            @ApiResponse(code = 500, response = ErrorResponse.class, message = "System error.")
+    }
+    )
     @PostMapping
     public CustomerSchema add(@Valid @RequestBody Customer request){
 
@@ -42,38 +56,20 @@ public class CustomerApi {
     /**
      * Get By id
      * */
+    @ApiOperation("Get customer by id")
+    @ApiResponses( value = {
+            @ApiResponse(code = 200, response = CustomerSchema.class, message = "Fetched customer successfully."),
+            @ApiResponse(code = 404, response = ErrorResponse.class, message = "Customer not found error."),
+            @ApiResponse(code = 400, response = ErrorResponse.class, message = "Bad Request."),
+            @ApiResponse(code = 401, response = ErrorResponse.class, message = "Unauthorized."),
+            @ApiResponse(code = 403, response = ErrorResponse.class, message = "Forbidden."),
+            @ApiResponse(code = 500, response = ErrorResponse.class, message = "System error.")
+    }
+    )
     @GetMapping(path = "/{id}")
-    public CustomerSchema byId(@PathVariable("id") String custId) {
+    public CustomerSchema byId(@PathVariable("id") String customerId) {
 
-       return customerService.getById(custId);
+       return customerService.getById(customerId);
     }
-
-
-    /**
-     * Place order for a customer Id
-     * */
-    @PostMapping(path = "/{id}/order")
-    public OrderSchema add(@PathVariable("id") String customerId,
-                           @Valid @RequestBody Order request){
-
-        return orderService.add(customerId, request);
-
-    }
-
-    /**
-     * Get By id
-     * */
-    @GetMapping
-    public Customer byCustId(@RequestParam("id") String custId) {
-
-        return !custId.equals("0") ? Customer.builder()
-                .firstName("Test")
-                .lastName("Test")
-                .email("Test")
-                .phoneNumber("987654321")
-                .build() : Customer.builder().build();
-    }
-
-
 
 }
