@@ -19,7 +19,7 @@ public class SwaggerConfig {
                 .groupName("Customer management")
                 .apiInfo(this.metaData())
                 .select()
-                .apis(RequestHandlerSelectors.any())
+                .apis(RequestHandlerSelectors.basePackage("com.sundar.microservices.customer.api"))
                 .paths(PathSelectors.any())
                 .build();
     }
