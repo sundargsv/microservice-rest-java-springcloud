@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -34,5 +35,12 @@ public class OrderServiceImpl implements OrderService{
 
         if (entity.isPresent()) return entity.get();
         throw new NotFound(String.format("The given order id %s is not found", id));
+    }
+
+    @Override
+    public List<OrderSchema> loadByCustomer(String customerId) {
+
+        log.info("Fetching a orders for a given customerId {}", customerId);
+        return orderRepository.findAllByCustomerId(customerId);
     }
 }

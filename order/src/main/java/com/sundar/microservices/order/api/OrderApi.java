@@ -13,6 +13,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
 @RequestMapping(path = Constants.API_ORDER_PATH)
@@ -39,6 +41,14 @@ public class OrderApi {
         return orderService.load(id);
     }
 
+
+    @GetMapping
+    public List<OrderSchema> getByOrderCustomerId(@RequestParam ("customerId") String customerId){
+
+        return orderService.loadByCustomer(customerId);
+    }
+
+
     @ApiOperation("Adding new order upon a customer id")
     @ApiResponses( value = {
             @ApiResponse(code = 200, response = OrderSchema.class, message = "Order has been added successfully"),
@@ -50,8 +60,9 @@ public class OrderApi {
     }
     )
     @PostMapping(path = "/{customerId}")
-    public OrderSchema add(@PathVariable("customerId") String id,
+    public OrderSchema add(@PathVariable("customerId") String customerId,
                            @RequestBody Order order){
-        return orderService.add(id, order);
+        return orderService.add(customerId, order);
     }
+
 }

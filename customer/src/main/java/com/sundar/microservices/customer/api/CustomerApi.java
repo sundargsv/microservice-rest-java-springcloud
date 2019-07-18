@@ -19,6 +19,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 
 @RestController
@@ -40,11 +41,6 @@ public class CustomerApi {
     @ApiOperation("Adding new customer")
     @ApiResponses( value = {
             @ApiResponse(code = 200, response = CustomerSchema.class, message = "Customer has been added successfully"),
-            @ApiResponse(code = 404, response = ErrorResponse.class, message = "Customer not found error."),
-            @ApiResponse(code = 400, response = ErrorResponse.class, message = "Bad Request."),
-            @ApiResponse(code = 401, response = ErrorResponse.class, message = "Unauthorized."),
-            @ApiResponse(code = 403, response = ErrorResponse.class, message = "Forbidden."),
-            @ApiResponse(code = 500, response = ErrorResponse.class, message = "System error.")
     }
     )
     @PostMapping
@@ -59,17 +55,32 @@ public class CustomerApi {
     @ApiOperation("Get customer by id")
     @ApiResponses( value = {
             @ApiResponse(code = 200, response = CustomerSchema.class, message = "Fetched customer successfully."),
-            @ApiResponse(code = 404, response = ErrorResponse.class, message = "Customer not found error."),
-            @ApiResponse(code = 400, response = ErrorResponse.class, message = "Bad Request."),
-            @ApiResponse(code = 401, response = ErrorResponse.class, message = "Unauthorized."),
-            @ApiResponse(code = 403, response = ErrorResponse.class, message = "Forbidden."),
-            @ApiResponse(code = 500, response = ErrorResponse.class, message = "System error.")
     }
     )
     @GetMapping(path = "/{id}")
-    public CustomerSchema byId(@PathVariable("id") String customerId) {
+    public CustomerSchema loadCustomer(@PathVariable("id") String customerId) {
 
        return customerService.getById(customerId);
+    }
+
+
+    /**
+     * Integrating all customer-order related api's here
+     * */
+    @ApiOperation("Adding new order upon a customer id")
+    @ApiResponses( value = {
+            @ApiResponse(code = 200, response = OrderSchema.class, message = "Order has been added successfully for a customer"),
+    }
+    )
+    @PostMapping(path = "/order/{customerId}")
+    public OrderSchema add(@PathVariable("customerId") String id,
+                           @RequestBody Order order){
+        return orderService.add(id, order);
+    }
+
+    @GetMapping(path = "/order/{customerId}")
+    public List<OrderSchema> loadOrders(@PathVariable("customerId") String customerId){
+        return orderService.load(customerId);
     }
 
 }
