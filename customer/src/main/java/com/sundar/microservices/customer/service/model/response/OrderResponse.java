@@ -1,14 +1,9 @@
-package com.sundar.microservices.customer.persistence.Schema;
+package com.sundar.microservices.customer.service.model.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.annotation.Version;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -17,10 +12,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Document("order")
-public class OrderSchema {
+public class OrderResponse {
 
-    @Id
     private String id;
 
     private String customerId;
@@ -35,12 +28,9 @@ public class OrderSchema {
 
     private Double discountedPrice;
 
-    @Version
     private Integer version;
 
-    @CreatedDate
     private LocalDateTime createdDate;
 
-    @LastModifiedDate
     private LocalDateTime modifiedDate;
 }

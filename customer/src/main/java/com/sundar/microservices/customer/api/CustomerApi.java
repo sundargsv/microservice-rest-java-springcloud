@@ -1,11 +1,10 @@
 package com.sundar.microservices.customer.api;
 
 import com.sundar.microservices.customer.api.model.Customer;
-import com.sundar.microservices.customer.api.model.ErrorResponse;
-import com.sundar.microservices.customer.api.model.Order;
+import com.sundar.microservices.customer.service.model.request.OrderRequest;
 import com.sundar.microservices.customer.common.Constants;
 import com.sundar.microservices.customer.persistence.Schema.CustomerSchema;
-import com.sundar.microservices.customer.persistence.Schema.OrderSchema;
+import com.sundar.microservices.customer.service.model.response.OrderResponse;
 import com.sundar.microservices.customer.service.CustomerService;
 import com.sundar.microservices.customer.service.OrderService;
 import io.swagger.annotations.Api;
@@ -69,17 +68,17 @@ public class CustomerApi {
      * */
     @ApiOperation("Adding new order upon a customer id")
     @ApiResponses( value = {
-            @ApiResponse(code = 200, response = OrderSchema.class, message = "Order has been added successfully for a customer"),
+            @ApiResponse(code = 200, response = OrderResponse.class, message = "OrderRequest has been added successfully for a customer"),
     }
     )
     @PostMapping(path = "/order/{customerId}")
-    public OrderSchema add(@PathVariable("customerId") String id,
-                           @RequestBody Order order){
+    public OrderResponse add(@PathVariable("customerId") String id,
+                             @RequestBody OrderRequest order){
         return orderService.add(id, order);
     }
 
     @GetMapping(path = "/order/{customerId}")
-    public List<OrderSchema> loadOrders(@PathVariable("customerId") String customerId){
+    public List<OrderResponse> loadOrders(@PathVariable("customerId") String customerId){
         return orderService.load(customerId);
     }
 

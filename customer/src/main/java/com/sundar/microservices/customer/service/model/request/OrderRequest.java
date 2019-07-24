@@ -1,4 +1,4 @@
-package com.sundar.microservices.customer.api.model;
+package com.sundar.microservices.customer.service.model.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -16,7 +16,7 @@ import java.util.List;
 @Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Order {
+public class OrderRequest {
 
     //details of the product like id, name, count, price, discount,
     // but only storing the name as of now

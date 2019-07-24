@@ -1,7 +1,7 @@
 package com.sundar.microservices.customer.service;
 
-import com.sundar.microservices.customer.api.model.Order;
-import com.sundar.microservices.customer.persistence.Schema.OrderSchema;
+import com.sundar.microservices.customer.service.model.request.OrderRequest;
+import com.sundar.microservices.customer.service.model.response.OrderResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -31,7 +31,7 @@ public class OrderServiceImpl implements OrderService{
 
     // TODO: 7/18/19 add how to throw error like NotFound, Badequest, etc...,
     @Override
-    public OrderSchema add(String customerId, Order entity) {
+    public OrderResponse add(String customerId, OrderRequest entity) {
 
         log.info("Adding new order for a given customer id {}", customerId);
 
@@ -41,10 +41,10 @@ public class OrderServiceImpl implements OrderService{
         HttpEntity<?> requestEntity = new HttpEntity<>( entity, this.buildHeaders() );
 
         //2. call the order service to create order
-        ResponseEntity<OrderSchema> response = restTemplate.exchange(orderServiceEndpoint + ORDER_API_PATH + "/" + customerId,
+        ResponseEntity<OrderResponse> response = restTemplate.exchange(orderServiceEndpoint + ORDER_API_PATH + "/" + customerId,
                 HttpMethod.POST,
                 requestEntity,
-                OrderSchema.class);
+                OrderResponse.class);
 
         //3. send the response back to the client
         return response.getBody();
@@ -52,16 +52,16 @@ public class OrderServiceImpl implements OrderService{
 
     // TODO: 7/18/19 add how to throw error like NotFound, Badequest, etc...,
     @Override
-    public List<OrderSchema> load(String customerId) {
+    public List<OrderResponse> load(String customerId) {
 
         log.info("Fetching a order entity for a given customer id {}", customerId);
 
         HttpEntity<?> requestEntity = new HttpEntity<>( this.buildHeaders() );
 
-        ResponseEntity<List<OrderSchema>> response = restTemplate.exchange(orderServiceEndpoint + ORDER_API_PATH + "/?customerId=" + customerId,
+        ResponseEntity<List<OrderResponse>> response = restTemplate.exchange(orderServiceEndpoint + ORDER_API_PATH + "/?customerId=" + customerId,
                 HttpMethod.GET,
                 requestEntity,
-                new ParameterizedTypeReference<List<OrderSchema>>(){});
+                new ParameterizedTypeReference<List<OrderResponse>>(){});
 
         return response.getBody();
     }
