@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface OrderRepository extends MongoRepository<OrderSchema, String> {
 
-    List<OrderSchema> findAllByCustomerId(String customerId);
+    List<OrderSchema> findAllByCorrelationId(String correlationId);
 }

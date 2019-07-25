@@ -11,7 +11,7 @@
 
 	<groupId>com.peru.microservices</groupId>
 	<artifactId>customer</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>customer</name>
 	<description>A demo customer service</description>
 

@@ -58,7 +58,7 @@ public class OrderServiceImpl implements OrderService{
 
         HttpEntity<?> requestEntity = new HttpEntity<>( this.buildHeaders() );
 
-        ResponseEntity<List<OrderResponse>> response = restTemplate.exchange(orderServiceEndpoint + ORDER_API_PATH + "/?customerId=" + customerId,
+        ResponseEntity<List<OrderResponse>> response = restTemplate.exchange(orderServiceEndpoint + ORDER_API_PATH + "/?correlationId=" + customerId,
                 HttpMethod.GET,
                 requestEntity,
                 new ParameterizedTypeReference<List<OrderResponse>>(){});

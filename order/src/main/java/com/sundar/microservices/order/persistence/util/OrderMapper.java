@@ -6,9 +6,9 @@ import com.sundar.microservices.order.persistence.Schema.OrderSchema;
 
 public class OrderMapper {
 
-    public static OrderSchema toOrderSchema(String customerId, Order order){
+    public static OrderSchema toOrderSchema(String correlationId, Order order){
         return OrderSchema.builder()
-                .customerId(customerId)
+                .correlationId(correlationId)
                 .product(order.getProduct())
                 .price(order.getPrice())
                 .isDiscounted(order.getIsDiscounted())

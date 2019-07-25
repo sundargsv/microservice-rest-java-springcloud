@@ -19,11 +19,12 @@ public class OrderServiceImpl implements OrderService{
     @Autowired
     OrderRepository orderRepository;
 
+    // TODO: 7/25/19 if correlationId is not given, then use UUID
     @Override
-    public OrderSchema add(String customerId, Order entity) {
+    public OrderSchema add(String correlationId, Order entity) {
 
-        log.info("Adding new order for a given customer id {}", customerId);
-        return orderRepository.save(OrderMapper.toOrderSchema(customerId, entity));
+        log.info("Adding new order for a given correlation id {}", correlationId);
+        return orderRepository.save(OrderMapper.toOrderSchema(correlationId, entity));
     }
 
     @Override
@@ -38,9 +39,9 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
-    public List<OrderSchema> loadByCustomer(String customerId) {
+    public List<OrderSchema> loadByCorrelationId(String correlationId) {
 
-        log.info("Fetching a orders for a given customerId {}", customerId);
-        return orderRepository.findAllByCustomerId(customerId);
+        log.info("Fetching a orders for a given correlationId {}", correlationId);
+        return orderRepository.findAllByCorrelationId(correlationId);
     }
 }

@@ -9,7 +9,7 @@ import java.util.List;
 @Service
 public interface OrderService {
 
-    OrderSchema add(String customerId, Order entity);
+    OrderSchema add(String correlationId, Order entity);
     OrderSchema load(String id);
-    List<OrderSchema> loadByCustomer(String customerId);
+    List<OrderSchema> loadByCorrelationId(String correlationId);
 }

@@ -16,7 +16,8 @@ public class OrderResponse {
 
     private String id;
 
-    private String customerId;
+    // the below is the customerId
+    private String correlationId;
 
     //details of the product like id, name, count, price, discount,
     // but only storing the name as of now

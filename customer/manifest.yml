@@ -1,0 +1,5 @@
+applications:
+- name: customer
+  memory: 700M
+  random-route: true
+  path: target/customer-0.0.1.jar

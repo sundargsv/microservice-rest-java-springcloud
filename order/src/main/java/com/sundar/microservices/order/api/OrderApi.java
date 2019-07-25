@@ -43,13 +43,13 @@ public class OrderApi {
 
 
     @GetMapping
-    public List<OrderSchema> getByOrderCustomerId(@RequestParam ("customerId") String customerId){
+    public List<OrderSchema> getByOrderCorrelationId(@RequestParam ("correlationId") String correlationId){
 
-        return orderService.loadByCustomer(customerId);
+        return orderService.loadByCorrelationId(correlationId);
     }
 
 
-    @ApiOperation("Adding new order upon a customer id")
+    @ApiOperation("Adding new order upon a correlation id")
     @ApiResponses( value = {
             @ApiResponse(code = 200, response = OrderSchema.class, message = "Order has been added successfully"),
             @ApiResponse(code = 404, response = ErrorResponse.class, message = "Order not found error."),
@@ -59,10 +59,10 @@ public class OrderApi {
             @ApiResponse(code = 500, response = ErrorResponse.class, message = "System error.")
     }
     )
-    @PostMapping(path = "/{customerId}")
-    public OrderSchema add(@PathVariable("customerId") String customerId,
+    @PostMapping(path = "/{correlationId}")
+    public OrderSchema add(@PathVariable("correlationId") String correlationId,
                            @RequestBody Order order){
-        return orderService.add(customerId, order);
+        return orderService.add(correlationId, order);
     }
 
 }

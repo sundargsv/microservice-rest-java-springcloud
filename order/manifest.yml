@@ -1,0 +1,5 @@
+applications:
+- name: order
+  memory: 700M
+  random-route: true
+  path: target/order-0.0.1.jar
