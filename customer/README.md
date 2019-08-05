@@ -6,3 +6,5 @@
 * Java 8
 * REST
 * Maven Dependency management
+* Swagger Documentation
+* Pivotal Cloud Foundry Deployment
