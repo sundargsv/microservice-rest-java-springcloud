@@ -11,7 +11,7 @@
 
 	<groupId>com.peru.microservices</groupId>
 	<artifactId>order</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>order</name>
 	<description>A demo order service</description>
 

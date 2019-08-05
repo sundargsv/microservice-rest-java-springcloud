@@ -26,8 +26,8 @@ public class SwaggerConfig {
 
     private ApiInfo metaData() {
         ApiInfo apiInfo = new ApiInfo(
-                "Test API",
-                "Test API documentation",
+                "Customer API",
+                "Customer API documentation",
                 "1.0",
                 "Terms of service", null, null, null);
         return apiInfo;

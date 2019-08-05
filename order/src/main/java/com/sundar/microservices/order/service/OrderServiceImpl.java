@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -18,11 +19,12 @@ public class OrderServiceImpl implements OrderService{
     @Autowired
     OrderRepository orderRepository;
 
+    // TODO: 7/25/19 if correlationId is not given, then use UUID
     @Override
-    public OrderSchema add(String customerId, Order entity) {
+    public OrderSchema add(String correlationId, Order entity) {
 
-        log.info("Adding new order for a given customer id {}", customerId);
-        return orderRepository.save(OrderMapper.toOrderSchema(customerId, entity));
+        log.info("Adding new order for a given correlation id {}", correlationId);
+        return orderRepository.save(OrderMapper.toOrderSchema(correlationId, entity));
     }
 
     @Override
@@ -34,5 +36,12 @@ public class OrderServiceImpl implements OrderService{
 
         if (entity.isPresent()) return entity.get();
         throw new NotFound(String.format("The given order id %s is not found", id));
+    }
+
+    @Override
+    public List<OrderSchema> loadByCorrelationId(String correlationId) {
+
+        log.info("Fetching a orders for a given correlationId {}", correlationId);
+        return orderRepository.findAllByCorrelationId(correlationId);
     }
 }

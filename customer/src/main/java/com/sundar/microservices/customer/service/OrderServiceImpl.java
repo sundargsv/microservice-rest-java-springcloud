@@ -1,38 +1,80 @@
 package com.sundar.microservices.customer.service;
 
-import com.sundar.microservices.customer.api.model.Order;
-import com.sundar.microservices.customer.exception.NotFound;
-import com.sundar.microservices.customer.persistence.OrderRepository;
-import com.sundar.microservices.customer.persistence.Schema.OrderSchema;
-import com.sundar.microservices.customer.persistence.util.OrderMapper;
+import com.sundar.microservices.customer.service.model.request.OrderRequest;
+import com.sundar.microservices.customer.service.model.response.OrderResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
-import java.util.Optional;
+import java.util.List;
 
 @Service
 @Slf4j
 public class OrderServiceImpl implements OrderService{
 
-    @Autowired
-    OrderRepository orderRepository;
+    @Value("${order.service.endpoint}")
+    protected String orderServiceEndpoint;
 
+    private static final String ORDER_API_PATH = "/order";
+
+    @Autowired
+    @Qualifier("rest-template")
+    private RestTemplate restTemplate;
+
+    // TODO: 7/18/19 add how to throw error like NotFound, Badequest, etc...,
     @Override
-    public OrderSchema add(String customerId, Order entity) {
+    public OrderResponse add(String customerId, OrderRequest entity) {
 
         log.info("Adding new order for a given customer id {}", customerId);
-        return orderRepository.save(OrderMapper.toOrderSchema(customerId, entity));
+
+        //0. check if the customer exists - throw err if not
+
+        //1. prepare the request
+        HttpEntity<?> requestEntity = new HttpEntity<>( entity, this.buildHeaders() );
+
+        //2. call the order service to create order
+        ResponseEntity<OrderResponse> response = restTemplate.exchange(orderServiceEndpoint + ORDER_API_PATH + "/" + customerId,
+                HttpMethod.POST,
+                requestEntity,
+                OrderResponse.class);
+
+        //3. send the response back to the client
+        return response.getBody();
     }
 
+    // TODO: 7/18/19 add how to throw error like NotFound, Badequest, etc...,
     @Override
-    public OrderSchema load(String id) {
+    public List<OrderResponse> load(String customerId) {
 
-        log.info("Fetching a order entity for a given id {}", id);
+        log.info("Fetching a order entity for a given customer id {}", customerId);
 
-        Optional<OrderSchema> entity = orderRepository.findById(id);
+        HttpEntity<?> requestEntity = new HttpEntity<>( this.buildHeaders() );
 
-        if (entity.isPresent()) return entity.get();
-        throw new NotFound(String.format("The given order id %s is not found", id));
+        ResponseEntity<List<OrderResponse>> response = restTemplate.exchange(orderServiceEndpoint + ORDER_API_PATH + "/?correlationId=" + customerId,
+                HttpMethod.GET,
+                requestEntity,
+                new ParameterizedTypeReference<List<OrderResponse>>(){});
+
+        return response.getBody();
+    }
+
+    /**
+     * Helper functions
+     * */
+    private HttpHeaders buildHeaders(){
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json");
+        headers.add("Accept", "application/json");
+
+        return headers;
     }
 }

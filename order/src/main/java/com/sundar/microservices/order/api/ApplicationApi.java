@@ -24,7 +24,7 @@ public class ApplicationApi {
 
     @GetMapping(path = {"/version"})
     public Project getVersion(){
-        log.info("Checking Health point...{}", "Customer-service");
+        log.info("Checking Health point...{}", "Order-service");
 
         Project project = new Project();
         project.setVersion(version);
