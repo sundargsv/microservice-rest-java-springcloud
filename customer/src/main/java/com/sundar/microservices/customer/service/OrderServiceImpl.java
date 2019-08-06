@@ -20,10 +20,10 @@ import java.util.List;
 @Slf4j
 public class OrderServiceImpl implements OrderService{
 
-    @Value("${order.service.endpoint}")
-    protected String orderServiceEndpoint;
+    @Value("${server.schema}")
+    protected String schema;
 
-    private static final String ORDER_API_PATH = "/order";
+    private static final String ORDER_API_PATH = "/api/order";
 
     @Autowired
     @Qualifier("rest-template")
@@ -41,7 +41,7 @@ public class OrderServiceImpl implements OrderService{
         HttpEntity<?> requestEntity = new HttpEntity<>( entity, this.buildHeaders() );
 
         //2. call the order service to create order
-        ResponseEntity<OrderResponse> response = restTemplate.exchange(orderServiceEndpoint + ORDER_API_PATH + "/" + customerId,
+        ResponseEntity<OrderResponse> response = restTemplate.exchange( schema + "://ORDER" + ORDER_API_PATH + "/" + customerId,
                 HttpMethod.POST,
                 requestEntity,
                 OrderResponse.class);
@@ -58,7 +58,7 @@ public class OrderServiceImpl implements OrderService{
 
         HttpEntity<?> requestEntity = new HttpEntity<>( this.buildHeaders() );
 
-        ResponseEntity<List<OrderResponse>> response = restTemplate.exchange(orderServiceEndpoint + ORDER_API_PATH + "/?correlationId=" + customerId,
+        ResponseEntity<List<OrderResponse>> response = restTemplate.exchange(schema + "://ORDER" + ORDER_API_PATH + "/?correlationId=" + customerId,
                 HttpMethod.GET,
                 requestEntity,
                 new ParameterizedTypeReference<List<OrderResponse>>(){});
@@ -69,6 +69,7 @@ public class OrderServiceImpl implements OrderService{
     /**
      * Helper functions
      * */
+
     private HttpHeaders buildHeaders(){
 
         HttpHeaders headers = new HttpHeaders();
