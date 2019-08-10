@@ -14,3 +14,8 @@ A sample demo Microservice created using Spring Boot 2, Spring cloud (Netflix OS
 * Maven Dependency management
 * Swagger Documentation
 * Pivotal Cloud Foundry Deployment
+* Adding spring cloud (Check Distributed System improvements)
+
+##### Distributed System Improvements
+
+* Service Registry and Discovery - (Spring Cloud)

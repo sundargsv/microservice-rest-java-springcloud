@@ -1,0 +1,6 @@
+server:
+  port: 8980
+  schema: http
+  hostname: localhost
+  servlet:
+    context-path: /svc-customer
