@@ -2,5 +2,3 @@ server:
   port: 8080
   schema: http
   hostname: localhost
-  servlet:
-    context-path: /api-gateway

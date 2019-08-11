@@ -18,10 +18,16 @@ A sample demo Microservice created using Spring Boot 2, Spring cloud (Netflix OS
 
 ##### Distributed System Improvements
 
-* Service Registry and Discovery - (Spring Cloud Eureka)
-* Latency and Fault Tolerance (Circuit Breaker Pattern) - (Spring Cloud Hystrix)
+* Service Registry and Discovery - (Spring Cloud Netflix Eureka)
+* Latency and Fault Tolerance (Circuit Breaker Pattern) - (Spring Cloud Netflix Hystrix)
+* API Gateway service (Proxying) - (Spring Cloud Netflix Zuul) 
 
 ##### Maintain and Monitor with Dashboards
 
 * Service Registry and Discovery - http://localhost:8999/
 * Latency and Fault Tolerance (With Circuit Breaker Pattern) - http://localhost:8980/svc-customer/hystrix/
+* API Gateway service (Proxying) - http://localhost:8080/api/
+
+##### API Gateway service
+
+* Proxying
