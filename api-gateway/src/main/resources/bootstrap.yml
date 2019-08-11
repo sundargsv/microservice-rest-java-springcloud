@@ -1,4 +1,4 @@
 server:
-  port: 8981
+  port: 8080
   schema: http
   hostname: localhost
