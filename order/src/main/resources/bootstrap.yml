@@ -2,5 +2,3 @@ server:
   port: 8981
   schema: http
   hostname: localhost
-  servlet:
-    context-path: /svc-order
