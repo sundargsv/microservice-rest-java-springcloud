@@ -6,6 +6,13 @@ spring:
   application:
     name: @project.name@
     version: @project.version@
+  sleuth:
+    enabled: true
+    sampler:
+      probability: 1.0
+    zuul:
+      enabled: true
+
 
 # proxy routing set-up
 zuul:

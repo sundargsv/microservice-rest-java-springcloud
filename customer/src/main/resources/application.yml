@@ -6,6 +6,10 @@ spring:
   application:
     name: @project.name@
     version: @project.version@
+  sleuth:
+    enabled: true
+    sampler:
+      probability: 1.0
   data:
     mongodb:
       uri: mongodb://admin:admin%40123@ds239936.mlab.com:39936/CloudFoundry_d3qg4ucf_fcu2gboc
