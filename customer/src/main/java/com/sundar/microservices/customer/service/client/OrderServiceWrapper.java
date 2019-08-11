@@ -1,9 +1,9 @@
 package com.sundar.microservices.customer.service.client;
 
-import com.netflix.appinfo.InstanceInfo;
-import com.netflix.discovery.EurekaClient;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.sundar.microservices.customer.service.model.request.OrderRequest;
 import com.sundar.microservices.customer.service.model.response.OrderResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,9 +15,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Slf4j
 public class OrderServiceWrapper {
 
     @Value("${service.order-endpoint}")
@@ -29,6 +31,7 @@ public class OrderServiceWrapper {
     @Qualifier("rest-template")
     private RestTemplate restTemplate;
 
+    @HystrixCommand(fallbackMethod = "addOrder_fallback", commandKey = "order_add", groupKey = "order_client")
     public OrderResponse addOrder(String correlationId, OrderRequest entity){
 
         //0. prepare the request with payload and headers
@@ -41,8 +44,10 @@ public class OrderServiceWrapper {
                 OrderResponse.class);
 
         //2. send the response back to the client
-        return response.getBody();}
+        return response.getBody();
+    }
 
+    @HystrixCommand(fallbackMethod = "getOrdersByCorrelationId_fallback", commandKey = "orders_get", groupKey = "order_client")
     public List<OrderResponse> getOrdersByCorrelationId(String correlationId){
 
         //0. prepare the request with headers
@@ -61,6 +66,22 @@ public class OrderServiceWrapper {
     /**
      * Fallback methods here
      * */
+
+    // TODO: 8/10/19 Use this fallback to list down the orders from cache - Redis cluster
+    private List<OrderResponse> getOrdersByCorrelationId_fallback(String correlationId){
+
+        log.info("Trying to fetch orders from cache for a given correlationId {}", correlationId);
+
+        //Stream the orders from caching mechanism - Redis cluster
+        return new ArrayList<>();
+    }
+
+    // TODO: 8/10/19 Use this fallback to add order as an event to kafka, assuming the order service will pick it up once its up and running
+    private OrderResponse addOrder_fallback(String correlationId, OrderRequest entity){
+
+        //Send order event to Event-Driven/ Queue mechanism - Kafka cluster
+        return OrderResponse.builder().build();
+    }
 
 
     /**

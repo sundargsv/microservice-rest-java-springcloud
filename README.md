@@ -18,4 +18,10 @@ A sample demo Microservice created using Spring Boot 2, Spring cloud (Netflix OS
 
 ##### Distributed System Improvements
 
-* Service Registry and Discovery - (Spring Cloud)
+* Service Registry and Discovery - (Spring Cloud Eureka)
+* Latency and Fault Tolerance (Circuit Breaker Pattern) - (Spring Cloud Hystrix)
+
+##### Maintain and Monitor with Dashboards
+
+* Service Registry and Discovery - http://localhost:8999/
+* Latency and Fault Tolerance (With Circuit Breaker Pattern) - http://localhost:8980/svc-customer/hystrix/
