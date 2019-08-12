@@ -12,7 +12,12 @@ spring:
       probability: 1.0
     zuul:
       enabled: true
-
+  zipkin:
+    baseUrl: ${server.schema}://${server.hostname}:9411
+    locator:
+      discovery:
+        enabled: true
+    enabled: true
 
 # proxy routing set-up
 zuul:

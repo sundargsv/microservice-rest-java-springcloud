@@ -10,6 +10,12 @@ spring:
     enabled: true
     sampler:
       probability: 1.0
+  zipkin:
+    baseUrl: ${server.schema}://${server.hostname}:9411
+    locator:
+      discovery:
+        enabled: true
+    enabled: true
   data:
     mongodb:
       uri: mongodb://admin:admin%40123@ds239936.mlab.com:39936/CloudFoundry_d3qg4ucf_fcu2gboc
