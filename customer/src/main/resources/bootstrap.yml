@@ -2,3 +2,8 @@ server:
   port: 8980
   schema: http
   hostname: localhost
+
+elk:
+  logstash:
+    port: 5000
+    tcp: ${server.hostname}}:${elk.logstash.port}
