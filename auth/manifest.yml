@@ -1,0 +1,5 @@
+applications:
+- name: auth
+  memory: 700M
+  random-route: true
+  path: target/auth-0.0.1.jar
