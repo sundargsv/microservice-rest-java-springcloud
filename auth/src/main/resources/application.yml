@@ -23,7 +23,7 @@ spring:
 # security token configurations
 security:
   jwt:
-    uri: /auth/**
+    uri: /auth/**,/version,/actuator/**
     header: Authorization
     prefix: Bearer
     # expiration set to 5 * 60 * 60
@@ -56,5 +56,3 @@ eureka:
 service:
   order-endpoint: ${server.schema}://ORDER
 
-jwt:
-  secret: myworld
