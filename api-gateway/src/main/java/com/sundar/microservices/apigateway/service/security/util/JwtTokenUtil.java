@@ -1,18 +1,15 @@
-package com.sundar.microservices.auth.service.util;
+package com.sundar.microservices.apigateway.service.security.util;
 
-import java.io.Serializable;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Function;
-
-import com.sundar.microservices.auth.configuration.TokenConfig;
+import com.sundar.microservices.apigateway.configuration.security.TokenConfig;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+
+import java.io.Serializable;
+import java.util.Date;
+import java.util.function.Function;
 
 @Component
 public class JwtTokenUtil implements Serializable {
@@ -21,13 +18,6 @@ public class JwtTokenUtil implements Serializable {
 
     @Autowired
     private TokenConfig tokenConfig;
-
-    //generate token for user
-    public String generateToken(UserDetails userDetails) {
-        Map<String, Object> claims = new HashMap<>();
-        return doGenerateToken(claims, userDetails.getUsername());
-    }
-
 
     //validate token
     public Boolean validateToken(String token, UserDetails userDetails) {
@@ -59,22 +49,6 @@ public class JwtTokenUtil implements Serializable {
     private Boolean isTokenExpired(String token) {
         final Date expiration = getExpirationDateFromToken(token);
         return expiration.before(new Date());
-    }
-
-
-    //while creating the token -
-    //1. Define claims of the token, like Issuer, Expiration, Subject, and the ID
-    //2. Sign the JWT using the HS512 algorithm and secret key.
-    //3. According to JWS Compact Serialization(https://tools.ietf.org/html/draft-ietf-jose-json-web-signature-41#section-3.1)
-    //   compaction of the JWT to a URL-safe string
-    private String doGenerateToken(Map<String, Object> claims, String subject) {
-
-        return Jwts.builder().setClaims(claims)
-                .setSubject(subject)
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + tokenConfig.getExpiration() * 1000))
-                .signWith(SignatureAlgorithm.HS512, tokenConfig.getSecret())
-                .compact();
     }
 
 }

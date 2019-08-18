@@ -18,6 +18,20 @@ spring:
       discovery:
         enabled: true
     enabled: true
+  data:
+    mongodb:
+      uri: mongodb://admin:admin%40123@ds239936.mlab.com:39936/CloudFoundry_d3qg4ucf_fcu2gboc
+
+
+# security token configurations
+security:
+  jwt:
+    uri: /**/auth/**,/**/version,/**/actuator/info,/**/actuator/health
+    header: Authorization
+    prefix: Bearer
+    # expiration set to 5 * 60 * 60
+    expiration: 18000
+    secret: worldismine
 
 # proxy routing set-up
 zuul:
@@ -30,6 +44,9 @@ zuul:
     customer:
       path: /svc-customer/**
       serviceId: CUSTOMER
+    auth:
+      path: /svc-auth/**
+      serviceId: AUTH
 
 # enable all actuator endpoints
 management:
