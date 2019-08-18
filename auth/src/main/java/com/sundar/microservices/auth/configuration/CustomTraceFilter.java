@@ -16,9 +16,9 @@ import java.io.IOException;
 
 @Component
 @Order(TraceWebServletAutoConfiguration.TRACING_FILTER_ORDER + 1)
-public class CustomTraceFilter extends GenericFilterBean {
+public class CustomTraceFilter extends GenericFilterBean{
 
-    private static final String TRACE_HEADER_NAME = "X-B3-TraceId";
+   private static final String TRACE_HEADER_NAME = "X-B3-TraceId";
     private final Tracer tracer;
 
     CustomTraceFilter(Tracer tracer) {
