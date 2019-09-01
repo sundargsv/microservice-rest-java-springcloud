@@ -10,8 +10,6 @@ spring:
     enabled: true
     sampler:
       probability: 1.0
-    zuul:
-      enabled: true
   zipkin:
     baseUrl: ${server.schema}://${server.hostname}:9411
     locator:
@@ -22,31 +20,15 @@ spring:
     mongodb:
       uri: mongodb://admin:admin%40123@ds239936.mlab.com:39936/CloudFoundry_d3qg4ucf_fcu2gboc
 
-
 # security token configurations
 security:
   jwt:
-    uri: /**/auth/**,/**/version,/**/actuator/info,/**/actuator/health
+    uri: /auth/**,/version,/actuator/**
     header: Authorization
     prefix: Bearer
     # expiration set to 5 * 60 * 60
     expiration: 18000
     secret: worldismine
-
-# proxy routing set-up
-zuul:
-  #Service will be mapped under the /api URI
-  prefix: /api
-  routes:
-    order:
-      path: /svc-order/**
-      serviceId: ORDER
-    customer:
-      path: /svc-customer/**
-      serviceId: CUSTOMER
-    auth:
-      path: /svc-auth/**
-      serviceId: AUTH
 
 # enable all actuator endpoints
 management:
@@ -70,3 +52,7 @@ eureka:
     fetchRegistry: true
     serviceUrl:
       defaultZone: ${server.schema}://${eureka.instance.hostname}:${eureka.instance.port}/eureka/
+
+service:
+  order-endpoint: ${server.schema}://ORDER
+
